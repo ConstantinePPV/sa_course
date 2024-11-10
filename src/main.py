@@ -16,5 +16,9 @@ SyncORM.insert_workers()
 # SyncCore.select_workers()
 # SyncCore.update_worker()
 
-SyncORM.select_workers()
-SyncORM.update_worker()
+# SyncORM.select_workers()
+# SyncORM.update_worker()
+
+SyncORM.insert_resumes()
+
+SyncORM.select_resumes_ang_compensation()

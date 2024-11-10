@@ -1,6 +1,6 @@
 import datetime
 from typing import Annotated
-from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, text
+from sqlalchemy import Enum, Table, Column, Integer, String, MetaData, ForeignKey, text, TIMESTAMP
 from sqlalchemy.orm  import Mapped, mapped_column
 from database import Base, str_256
 import enum
@@ -36,8 +36,8 @@ class ResumesOrm(Base):
 	compensation: Mapped[int | None]
 	workload: Mapped[Workload]
 	worker_id: Mapped[int] = mapped_column(ForeignKey("workers.id", ondelete="CASCADE"))
-	created_at = Mapped[created_at]
-	updated_at = Mapped[updated_at]
+	created_at: Mapped[created_at]
+	updated_at: Mapped[updated_at]
 	
 
 
@@ -56,5 +56,17 @@ workers_table = Table(
 	"workers",
 	metadata_obj,
 	Column("id", Integer, primary_key=True),
-	Column("username", String)
+	Column("username", String) 
+)
+
+resumes_table = Table(
+	"resumes",
+	metadata_obj,
+	Column("id", Integer, primary_key=True),
+	Column("title", String(256)),
+	Column("compensation", Integer, nullable=True),
+	Column("workload", Enum(Workload)),
+	Column("worker_id", ForeignKey("worker.id", ondelete="CASCADE")),
+	Column("create_at", TIMESTAMP, server_default=text("TIMEZONE('utc', now())")),
+	Column("update_at", TIMESTAMP, server_default=text("TIMEZONE('utc', now())"), onupdate=datetime.datetime.now),
 )
