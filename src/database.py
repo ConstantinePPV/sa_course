@@ -6,16 +6,16 @@ from config import settings
 
 
 sync_engine = create_engine(
-	url=settings.DATABASE_URL_psycopg,
-	echo=True,
-	# pool_size=5,
-	# max_overflow=10,	
+    url=settings.DATABASE_URL_psycopg,
+    echo=True,
+    # pool_size=5,
+    # max_overflow=10,
 )
 
 
 async_engine = create_async_engine(
-	url=settings.DATABASE_URL_asyncpg,
-	echo=True,
+    url=settings.DATABASE_URL_asyncpg,
+    echo=True,
 )
 
 
@@ -27,6 +27,4 @@ str_256 = Annotated[str, 256]
 
 
 class Base(DeclarativeBase):
-	type_annotation_map = {
-		str_256: String(256)
-	}
+    type_annotation_map = {str_256: String(256)}
